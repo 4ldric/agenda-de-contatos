@@ -14,8 +14,7 @@ def lista_contatos(contatos):
         status = "⭐" if contato["favorito"] else " "
         nome_contato = contato["contato"]
         print(f"» {indice}. [{status}] {nome_contato}")
-        print("Pressione [0] para voltar ao menu.")
-
+    print("\nPressione [0] para voltar ao menu.")
 def detalhes_contato(indice):
     if indice > 0:
         indice -= 1
@@ -33,6 +32,30 @@ E-mail: {email}""")
     else:
         print("Digito invalido..")
 
+def editar_contato(indice):
+    print(
+        """
+» [1]. Nome
+» [2]. Telefone
+» [3]. E-mail
+"""
+    )
+    editor = int(input("\nDigite a opção que deseja editar: "))
+    indice -= 1
+    if editor == 1:
+        novo_nome = input("Digite o nome atualizado: ")
+        contatos[indice]["contato"] = novo_nome
+        print("\nNome do contato atualizado com sucesso")
+    elif editor == 2:
+        novo_telefone = input("Digite o telefone atualizado: ")
+        contatos[indice]["telefone"] = novo_telefone
+        print("\nTelefone do contato atualizado com sucesso")
+    elif editor == 3:
+        novo_email = input("Digite o email atualizado: ")
+        contatos[indice]["email"] = novo_email
+        print("\nE-mail do contato atualizado com sucesso")
+    else:
+        print("Opção invalida.")
 
 # Menu
 contatos = []
@@ -59,7 +82,9 @@ while True:
             indice = int(input("digite o contato que queira visualizar: "))
             detalhes_contato(indice)
         elif comando == 3:
-            pass
+            lista_contatos(contatos)
+            indice = int(input("digite o contato que queira editar: "))
+            editar_contato(indice)
         elif comando == 4:
             pass
         elif comando == 5:
