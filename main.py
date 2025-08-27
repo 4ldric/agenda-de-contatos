@@ -68,7 +68,12 @@ def favoritar_contato(contatos,indice):
         contatos[indice]["favorito"] = True
         print(f"{contato} adicionado aos favoritos.")
 
-
+def lista_favoritos(contatos):
+    for indice, contato in enumerate(contatos, start = 1):
+        if contato['favorito']:
+            status =  contato["status"] = "⭐"
+            print(f'» {indice}. [{status}] {contato["contato"]}')
+    print("retornando ao menu..")
 # Menu
 contatos = []
 while True:
@@ -102,7 +107,7 @@ while True:
             indice = int(input("Digite o contato que queira adicionar ou remover dos favoritos: "))
             favoritar_contato(contatos,indice)
         elif comando == 5:
-            pass
+            lista_favoritos(contatos)
         elif comando == 6:
             pass
         elif comando == 7:
