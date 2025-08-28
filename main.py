@@ -74,6 +74,16 @@ def lista_favoritos(contatos):
             status =  contato["status"] = "⭐"
             print(f'» {indice}. [{status}] {contato["contato"]}')
     print("retornando ao menu..")
+
+def excluir_contato(contatos, indice):
+    indice -= 1
+    if indice in range(len((contatos))):
+        nome = contatos[indice]["contato"]
+        del contatos[indice]
+        print(f"{nome} excluido da lista de contatos.")
+    else:
+        print("Opção invalida, ou contato não existe.")
+
 # Menu
 contatos = []
 while True:
@@ -109,7 +119,9 @@ while True:
         elif comando == 5:
             lista_favoritos(contatos)
         elif comando == 6:
-            pass
+            lista_contatos(contatos)
+            indice = int(input("Digite o contato que queira excluir: "))
+            excluir_contato(contatos,indice)
         elif comando == 7:
             print("Saindo...")
             break
