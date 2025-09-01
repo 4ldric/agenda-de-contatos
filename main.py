@@ -1,7 +1,9 @@
 # Modulos
-from sys import exception
 
 # Funções
+from sys import exception
+
+
 def adicionar_contato(contatos, nome, telefone, email):
     contato = {"contato": nome, "telefone": telefone, "email": email, "favorito": False}
     contatos.append(contato)
@@ -10,28 +12,36 @@ def adicionar_contato(contatos, nome, telefone, email):
 
 def lista_contatos(contatos):
     print("\n== 👤 Lista de contatos ==")
-    for indice, contato in enumerate(contatos, start = 1):
-        status = "⭐" if contato["favorito"] else " "
-        nome_contato = contato["contato"]
-        print(f"» {indice}. [{status}] {nome_contato}")
-    print("\nPressione [0] para voltar ao menu.")
+    if contatos == []:
+        print("\nVocê não possui contatos no momento.")
+    else:
+        for indice, contato in enumerate(contatos, start = 1):
+            status = "⭐" if contato["favorito"] else " "
+            nome_contato = contato["contato"]
+            print(f"» {indice}. [{status}] {nome_contato}")
 
-def detalhes_contato(indice):
-    indice_revisado = indice - 1
-    if indice > 0 and indice_revisado in range(len(contatos)):
-        nome_contato = contatos[indice_revisado]["contato"]
-        telefone = contatos[indice_revisado]["telefone"]
-        email = contatos[indice_revisado]["email"]
-        favorito = "⭐" if contatos[indice_revisado]["favorito"] else " "
-        print("== 📞 Detalhes do Contato ==")
-        print(f"""
-Nome: {nome_contato} {favorito}
-Telefone: {telefone}
-E-mail: {email}""")
-    elif indice == 0:
+def detalhes_contato():
+    lista_contatos(contatos)
+    if contatos == []:
         print("Retornando ao menu...")
     else:
-        print("Digito invalido..")
+        indice = int(input("\ndigite o contato que queira visualizar ou [0] para retornar ao menu: "))
+        indice_revisado = indice - 1
+        if indice > 0 and indice_revisado in range(len(contatos)):
+            nome_contato = contatos[indice_revisado]["contato"]
+            telefone = contatos[indice_revisado]["telefone"]
+            email = contatos[indice_revisado]["email"]
+            favorito = "⭐" if contatos[indice_revisado]["favorito"] else " "
+            print("== 📞 Detalhes do Contato ==")
+            print(f"""
+    Nome: {nome_contato} {favorito}
+    Telefone: {telefone}
+    E-mail: {email}
+    """)
+        elif indice == 0:
+            print("Retornando ao menu...")
+        else:
+            print("Digito invalido..")
 
 def editar_contato(indice):
     print(
@@ -75,14 +85,21 @@ def lista_favoritos(contatos):
             print(f'» {indice}. [{status}] {contato["contato"]}')
     print("retornando ao menu..")
 
-def excluir_contato(contatos, indice):
-    indice -= 1
-    if indice in range(len((contatos))):
-        nome = contatos[indice]["contato"]
-        del contatos[indice]
-        print(f"{nome} excluido da lista de contatos.")
+def excluir_contato(contatos):
+    if contatos == []:
+        print("\nVocê não possui contatos no momento. Retornando ao menu...")
     else:
-        print("Opção invalida, ou contato não existe.")
+        indice = int(input("\nDigite o contato que queira excluir ou [0] para cancelar: "))
+        indice -= 1
+        if indice in range(len((contatos))):
+            nome = contatos[indice]["contato"]
+            del contatos[indice]
+            print(f"{nome} excluido da lista de contatos.")
+        elif indice <= 0:
+            print("Retornando ao menu...")
+        else:
+            print("Opção invalida ou contato não existe. Retornando ao menu...")
+
 
 # Menu
 contatos = []
@@ -97,17 +114,15 @@ while True:
 » [6]. Excluir contato
 » [7]. Sair
 """)
-    comando = int(input("\nDigite uma opção: "))
     try:
+        comando = int(input("\nDigite uma opção: "))
         if comando == 1:
             nome = input("digite o nome do contato: ")
-            telefone = int(input("Digite o numero de telefone: "))
+            telefone = input("Digite o numero de telefone: ")
             email = input("Digite o email: ")
             adicionar_contato(contatos, nome, telefone, email)
         elif comando == 2:
-            lista_contatos(contatos)
-            indice = int(input("digite o contato que queira visualizar: "))
-            detalhes_contato(indice)
+            detalhes_contato()
         elif comando == 3:
             lista_contatos(contatos)
             indice = int(input("digite o contato que queira editar: "))
@@ -120,12 +135,11 @@ while True:
             lista_favoritos(contatos)
         elif comando == 6:
             lista_contatos(contatos)
-            indice = int(input("Digite o contato que queira excluir: "))
-            excluir_contato(contatos,indice)
+            excluir_contato(contatos)
         elif comando == 7:
             print("Saindo...")
             break
         else:
             print("⚠️ Opção invalida..")
-    except exception:
-        print("⚠️ Comando invalido..")
+    except ValueError:
+        print("⚠️  Comando invalido..")
