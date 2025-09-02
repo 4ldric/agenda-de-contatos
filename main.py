@@ -1,13 +1,12 @@
 # Modulos
-
+from time import sleep
 # Funções
-from sys import exception
-
 
 def adicionar_contato(contatos, nome, telefone, email):
     contato = {"contato": nome, "telefone": telefone, "email": email, "favorito": False}
     contatos.append(contato)
-    print(f"✅ {nome} adicionado com sucesso.")
+    print(f"✅ {nome} adicionado com sucesso. Retornando ao menu..")
+    sleep(1.1)
     return
 
 def lista_contatos(contatos):
@@ -35,8 +34,27 @@ E-mail: {email}
 """)
     elif indice == 0:
         print("Retornando ao menu...")
+        sleep(1.3)
     else:
         print("Digito invalido..")
+        sleep(1.3)
+
+def detalhes_favorito(indice):
+    indice_revisado = indice - 1
+    if indice == 0:
+        print("Retornando ao menu...")
+        sleep(1.1)
+    elif not contatos[indice_revisado]["favorito"]:
+        print("\nContato não favoritado ou não existe. Retornando ao menu...")
+        sleep(1.1)
+    else:
+        favorito = "⭐" if contatos[indice_revisado]["favorito"] else " "
+        print("== 📞 Detalhes do Contato ==")
+        print(f"""
+Nome: {contatos[indice_revisado]["contato"]} {favorito}
+Telefone: {contatos[indice_revisado]["telefone"]}
+E-mail: {contatos[indice_revisado]['email']}""")
+
 
 def editar_contato(indice):
     print(
@@ -62,6 +80,7 @@ def editar_contato(indice):
         print("\nE-mail do contato atualizado com sucesso")
     else:
         print("Opção invalida.")
+    sleep(1.3)
 
 def favoritar_contato(contatos,indice):
     indice -= 1
@@ -72,6 +91,7 @@ def favoritar_contato(contatos,indice):
     else:
         contatos[indice]["favorito"] = True
         print(f"{contato} adicionado aos favoritos.")
+        sleep(1.3)
 
 def lista_favoritos(contatos):
     for indice, contato in enumerate(contatos, start = 1):
@@ -84,11 +104,13 @@ def excluir_contato(contatos, indice):
     if indice in range(len((contatos))):
         nome = contatos[indice]["contato"]
         del contatos[indice]
-        print(f"{nome} excluido da lista de contatos.")
+        print(f"♻️ {nome} excluido da lista de contatos. Retornando ao menu...")
     elif indice <= 0:
         print("Retornando ao menu...")
+
     else:
-        print("Opção invalida ou contato não existe. Retornando ao menu...")
+        print("⚠️ Opção invalida ou contato não existe. Retornando ao menu...")
+    sleep(1.3)
 
 
 # Menu
@@ -111,20 +133,23 @@ while True:
             telefone = input("Digite o numero de telefone: ")
             email = input("Digite o email: ")
             adicionar_contato(contatos, nome, telefone, email)
+            sleep(1.1)
         elif comando == 2:
             if not contatos:
                 print("\nVocê não possui contatos no momento. Retornando ao menu...")
+                sleep(1.3)
             else:
                 lista_contatos(contatos)
                 try:
                     indice = int(input("\ndigite o contato que queira visualizar: "))
                     detalhes_contato(indice)
-                    input("Pressione [0] para voltar ao menu: ")
+                    input("\nPressione [0] para voltar ao menu: ")
                 except(ValueError, IndexError):
                     print("⚠️  Comando invalido..")
         elif comando == 3:
             if not contatos:
                 print("\nVocê não possui contatos no momento. Retornando ao menu...")
+                sleep(1.3)
             else:
                 lista_contatos(contatos)
                 try:
@@ -135,6 +160,7 @@ while True:
         elif comando == 4:
             if not contatos:
                 print("\nVocê não possui contatos no momento. Retornando ao menu...")
+                sleep(1.3)
             else:
                 lista_contatos(contatos)
                 try:
@@ -145,25 +171,36 @@ while True:
         elif comando == 5:
             if not contatos:
                 print("\nVocê não possui contatos no momento. Retornando ao menu...")
+                sleep(1.3)
             else:
                 try:
                     lista_favoritos(contatos)
-                    input("\nPressione [0] para retornar ao menu: ")
+                    indice = int(input("\nDigite o contato que queira visualizar ou pressione [0] para retornar ao menu: "))
+                    detalhes_favorito(indice)
+                    input("pressione [0] para retornar ao menu: ")
+                    sleep(1)
                 except (ValueError, IndexError):
-                    print("⚠️  Comando invalido..")
+                    print(
+                        "\n⚠️ Contato não favoritado ou não existe. Retornando ao menu..."
+                    )
         elif comando == 6:
             if not contatos:
-                print("\nVocê não possui contatos no momento. Retornando ao menu...")
+                print("\n⚠️ Comando invalido. Retornando ao menu...")
+                sleep(1)
             else:
                 lista_contatos(contatos)
                 try:
-                    excluir_contato(contatos)
+                    indice = int(input("\nDigite o contato que queira excluir: "))
+                    excluir_contato(contatos, indice)
                 except (ValueError,IndexError):
                     print("⚠️  Comando invalido..")
         elif comando == 7:
             print("Saindo...")
+            sleep(0.5)
             break
         else:
             print("⚠️ Opção invalida..")
+            sleep(0.7)
     except ValueError:
         print("⚠️  Comando invalido..")
+        sleep(0.7)
